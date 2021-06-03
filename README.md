@@ -10,6 +10,7 @@ Allows reading X and Y values from joystick connected to analog inputs. Includes
 - outputs 0-255 value to fit in byte (for easier transmission via eg. nRF24L01+) instead of joy's actual 0-1023
 - allows reversing axis output (0..255 -> 255..0)
 
+
 ## Dependencies
 
 * <Arduino.h>
@@ -17,6 +18,7 @@ Allows reading X and Y values from joystick connected to analog inputs. Includes
 ## Installing
 
 * Copy Joy class and paste it to your Arduino project
+* If using in *.ino file via Arduino IDE you don't have to copy `#include <Arduino.h>` line
 
 ## Executing program
 
@@ -42,4 +44,4 @@ Any issues, questions and improvement ideas can be raised via GitHub.
 
 Thanks to the guys from freenode IRC channel ##C++-general, especially:
 * Alipha
-* Cbreak
+* cbreak
