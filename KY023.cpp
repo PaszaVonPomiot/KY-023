@@ -1,7 +1,8 @@
-#include <Arduino.h>
+// KY023.cpp
+// #include "Joy.h"
 
 /*
-Joy class for KY-023 joystick connected to Arduino for reading joystick output.
+Joy class for KY-023 joystick connected to Arduino.
 - finds stable reading of joy's neutral position (fixes issue with reading wobbling when joy is not being touched)
 - projects unequal axes to ideal axes (fixes issue with with reading not showing center when joy is in neutral position)
 - outputs 0-255 value to fit in byte (for easier transmission via eg. nRF24L01+) instead of joy's actual 0-1023
@@ -16,14 +17,16 @@ Usage:
 */
 class Joy {
   public:
+    // constexpr indicates that the value, or return value, is constant and, where possible, is computed at compile time
+    // static indicates that variable is stored once across all class instances
     const byte X_PIN;
     const byte Y_PIN;
     const byte BUTTON_PIN;
     const byte DEADZONE_RADIUS;
     static constexpr byte X_AXIS = 0;  // alias for x axis
     static constexpr byte Y_AXIS = 1;  // alias for y axis
-    static constexpr word X_MAX = 1023;  // constexpr indicates that the value, or return value, is constant and, where possible, is computed at compile time
-    static constexpr word Y_MAX = 1023;  // static indicates that variable is stored once across all class instances
+    static constexpr word XY_MAX_IN = 1023;  // max joystick output
+    static constexpr word XY_MAX_OUT = 255;  // max casted output eg. for byte
     word x_center;  // x read when joy in neutral position
     word y_center;  // y read when joy in neutral position
 
@@ -61,17 +64,18 @@ class Joy {
     // Make a read based on which axis was selected
     byte readJoyAxisAsByte(byte axis) {
       if(axis == X_AXIS) {
-        return castToByte(readJoyAxis(X_PIN, x_lower_edge(), x_upper_edge(), X_MAX));
+        return castToByte(readJoyAxis(X_PIN, x_lower_edge(), x_upper_edge(), XY_MAX_IN));
       } 
       if(axis == Y_AXIS) {
-        return castToByte(readJoyAxis(Y_PIN, y_lower_edge(), y_upper_edge(), Y_MAX));
+        return castToByte(readJoyAxis(Y_PIN, y_lower_edge(), y_upper_edge(), XY_MAX_IN));
       }
       return 0;  // dummy
     }
     
     // Return reversed axis read (0..255 -> 255..0)
     byte reverse(byte value_to_reverse) {
-      return (255-value_to_reverse);
+      // return (XY_MAX_OUT-value_to_reverse);
+      return map(value_to_reverse, 0, XY_MAX_OUT, XY_MAX_OUT, 0);
     }
 
 
@@ -93,7 +97,8 @@ class Joy {
     // cast 1023->255 to fit in byte
     static byte castToByte(int axis_read)
     {
-      return axis_read/4;
+      // return axis_read/4;
+      return map(axis_read, 0, XY_MAX_IN, 0, XY_MAX_OUT);
     }
 	
     // return joy axis position accounting for real center and deadzone
