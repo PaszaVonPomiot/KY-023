@@ -31,11 +31,11 @@ Joy joy(A0, A1, 7, 3);
 * Add `joy.setup()` within Arduino main `setup()` section
 * In Arduino `loop()` section you can now read axis position
 ```
-joy.readJoyAxisAsByte(X_AXIS)
-joy.readJoyAxisAsByte(Y_AXIS)
+joy.readJoyAxisAsByte(joy.X_AXIS)
+joy.readJoyAxisAsByte(joy.Y_AXIS)
 ```
 * When Arduino starts leave joy in neutral position for 1 second so it can find stable neutral read
-* If needed reverse axis by using `joy.reverse(joy.readJoyAxisAsByte(X_AXIS))`
+* If needed reverse axis by using `joy.reverse(joy.readJoyAxisAsByte(joy.X_AXIS))`
 
 ## Help
 
