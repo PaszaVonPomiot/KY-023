@@ -7,8 +7,9 @@ Class for using KY-023 Joystick module with Arduino
 Allows reading X and Y values from joystick connected to analog inputs. Includes following freatures:
 - finds stable reading of joy's neutral position (fixes issue with reading wobbling when joy is not being touched)
 - projects unequal axes to ideal axes (fixes issue with with reading not showing center when joy is in neutral position)
-- outputs 0-255 value to fit in byte (for easier transmission via eg. nRF24L01+) instead of joy's actual 0-1023
+- outputs 0-255 value to fit in byte (for easier transmission via eg. nRF24L01+) instead of joy's actual 0-1023; you can change XY_MAX_OUT to output required range
 - allows reversing axis output (0..255 -> 255..0)
+- defines deadzone where near center reading will output exactly central position 
 
 
 ## Dependencies
@@ -17,8 +18,8 @@ Allows reading X and Y values from joystick connected to analog inputs. Includes
 
 ## Installing
 
-* Copy Joy class and paste it to your Arduino project
-* If using in *.ino file via Arduino IDE you don't have to copy `#include <Arduino.h>` line
+* Copy `Joy.cpp` file to your project directory
+* Add `#include "Joy.cpp"` line on top of your Arduino project
 
 ## Executing program
 
@@ -39,6 +40,11 @@ joy.readJoyAxisAsByte(Y_AXIS)
 ## Help
 
 Any issues, questions and improvement ideas can be raised via GitHub.
+
+## Known issues
+
+* Button pin is not implemented at the moment and you can use dummy pin number to create instance of a class
+* Due to limited math precision output may differ by 1 from actual read which shouldn't be a problem for such low accuracy joystick
 
 ## Acknowledgments
 
