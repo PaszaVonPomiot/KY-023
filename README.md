@@ -2,6 +2,9 @@
 
 Class for using KY-023 Joystick module with Arduino
 
+![KY-023](https://github.com/PaszaVonPomiot/KY-023/blob/master/KY023.png) 
+
+
 ## Description
 
 Allows reading X and Y values from joystick connected to analog inputs. Includes following freatures:
